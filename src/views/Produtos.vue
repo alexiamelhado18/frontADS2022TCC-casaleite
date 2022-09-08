@@ -7,13 +7,17 @@
         placeholder="Buscar por nome do produto"
         @input="consultarQuandoParar($event)"
       />
-      <b-button>Cadastrar produto</b-button>
+      <b-button :to="{ name: 'CadastrarProduto' }">Cadastrar produto</b-button>
     </div>
     <table class="table table-striped">
       <thead>
         <tr>
           <th scope="col">Id</th>
           <th scope="col">Nome</th>
+          <th scope="col">Marca</th>
+          <th scope="col">Descricao</th>
+          <th scope="col">Data de expiração</th>
+          <th scope="col">Estoque</th>
           <th scope="col">Ações</th>
         </tr>
       </thead>
@@ -23,7 +27,12 @@
           :key="item.id"
           :id="item.id"
           :nome="item.nome"
+          :estoque="item.estoque"
+          :data_expiracao="item.data_expiracao"
+          :marca="item.marca"
+          :color="item.color"
           @setarItemExclusao="pegarItemASerExcluido(item)"
+          @verDescricao="verDescricao(item.descricao)"
         />
       </tbody>
       <tbody v-else>
@@ -35,12 +44,15 @@
       </tbody>
     </table>
     <b-modal
-      ref="my-modal"
+      ref="modal-excluir-item"
       title="Deseja realmente excluir esse produto?"
       hide-footer
     >
       <b-button class="m-3" @click="fecharModal">Cancelar</b-button>
       <b-button class="m-3" @click="excluirItem">Confirmar</b-button>
+    </b-modal>
+    <b-modal ref="modal-ver-descricao" hide-footer>
+      {{ descricao }}
     </b-modal>
   </div>
 </template>
@@ -56,12 +68,35 @@ export default {
   data() {
     return {
       items: [
-        { id: 1, nome: "Martelo" },
-        { id: 2, nome: "Machado" },
-        { id: 3, nome: "Chuveiro" },
+        {
+          id: 1,
+          nome: "Martelo",
+          color: undefined,
+          marca: "",
+          data_expiracao: this.dateNow(),
+          estoque: 10,
+          descricao: "lorem lorem lorem...",
+        },
+        {
+          id: 2,
+          nome: "Machado",
+          color: undefined,
+          marca: "",
+          data_expiracao: this.dateNow(),
+          estoque: 10,
+        },
+        {
+          id: 3,
+          nome: "Chuveiro",
+          color: undefined,
+          marca: "",
+          data_expiracao: this.dateNow(),
+          estoque: 10,
+        },
       ],
       item: {},
       isFilter: false,
+      descricao: "",
     };
   },
   methods: {
@@ -94,10 +129,18 @@ export default {
       this.item = item;
     },
     abrirModal() {
-      this.$refs["my-modal"].show();
+      this.$refs["modal-excluir-item"].show();
     },
     fecharModal() {
-      this.$refs["my-modal"].hide();
+      this.$refs["modal-excluir-item"].hide();
+    },
+    dateNow() {
+      const d = new Date();
+      return d.toLocaleDateString();
+    },
+    verDescricao(descricao) {
+      this.descricao = descricao;
+      this.$refs["modal-ver-descricao"].show();
     },
   },
 };
