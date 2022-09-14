@@ -7,7 +7,7 @@
     <td>{{ data_expiracao }}</td>
     <td>{{ estoque }}</td>
     <td>
-      <router-link :to="{ name: 'AlterarProduto' }">
+      <router-link :to="{ name: 'AlterarProduto', params: { id: id } }">
         <b-icon class="icon" icon="pencil" aria-hidden="true"></b-icon>
       </router-link>
 
