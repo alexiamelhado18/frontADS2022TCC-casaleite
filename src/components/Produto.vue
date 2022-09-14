@@ -1,7 +1,7 @@
 <template>
   <tr>
     <td>{{ id }}</td>
-    <td>{{ nome + color }}</td>
+    <td>{{ nome }} {{ color }}</td>
     <td>{{ marca }}</td>
     <td class="link-descricao" @click="$emit('verDescricao')">ver descrição</td>
     <td>{{ data_expiracao }}</td>
