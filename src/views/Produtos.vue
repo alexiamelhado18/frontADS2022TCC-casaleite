@@ -26,13 +26,13 @@
           v-for="item in items"
           :key="item.id"
           :id="item.id"
-          :nome="item.nome"
-          :estoque="item.estoque"
-          :data_expiracao="item.data_expiracao"
-          :marca="item.marca"
+          :nome="item.name"
+          :estoque="item.quantity"
+          :data_expiracao="item.expiration_date"
+          :marca="item.brand"
           :color="item.color"
           @setarItemExclusao="pegarItemASerExcluido(item)"
-          @verDescricao="verDescricao(item.descricao)"
+          @verDescricao="verDescricao(item.description)"
         />
       </tbody>
       <tbody v-else>
@@ -67,37 +67,16 @@ export default {
   },
   data() {
     return {
-      items: [
-        {
-          id: 1,
-          nome: "Martelo",
-          color: undefined,
-          marca: "",
-          data_expiracao: this.dateNow(),
-          estoque: 10,
-          descricao: "lorem lorem lorem...",
-        },
-        {
-          id: 2,
-          nome: "Machado",
-          color: undefined,
-          marca: "",
-          data_expiracao: this.dateNow(),
-          estoque: 10,
-        },
-        {
-          id: 3,
-          nome: "Chuveiro",
-          color: undefined,
-          marca: "",
-          data_expiracao: this.dateNow(),
-          estoque: 10,
-        },
-      ],
+      items: [],
       item: {},
       isFilter: false,
       descricao: "",
     };
+  },
+  mounted() {
+    // faz prte do ciclo de vida do vue e só aciona
+    //ele enquanto estiver no reload apos carregar os elementos(HTML)
+    this.getAll();
   },
   methods: {
     consultarQuandoParar: function consultarQuandoParar($event) {
@@ -141,6 +120,16 @@ export default {
     verDescricao(descricao) {
       this.descricao = descricao;
       this.$refs["modal-ver-descricao"].show();
+    },
+    async getAll() {
+      await fetch("http://127.0.0.1:5000/product/")
+        .then((response) => {
+          response.json().then((data) => {
+            this.items = data;
+            console.log(this.items);
+          });
+        })
+        .catch((error) => console.log(error));
     },
   },
 };
