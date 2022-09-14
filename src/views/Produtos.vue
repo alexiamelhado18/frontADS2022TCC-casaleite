@@ -31,15 +31,20 @@
           :data_expiracao="item.expiration_date"
           :marca="item.brand"
           :color="item.color"
-          @setarItemExclusao="pegarItemASerExcluido(item)"
+          @setarItemExclusao="pegarItemASerExcluido(item.id)"
           @verDescricao="verDescricao(item.description)"
         />
       </tbody>
       <tbody v-else>
         <ComponentProduto
           :id="item.id"
-          :nome="item.nome"
-          @setarItemExclusao="pegarItemASerExcluido(item)"
+          :nome="item.name"
+          :estoque="item.quantity"
+          :data_expiracao="item.expiration_date"
+          :marca="item.brand"
+          :color="item.color"
+          @setarItemExclusao="pegarItemASerExcluido(item.id)"
+          @verDescricao="verDescricao(item.description)"
         />
       </tbody>
     </table>
@@ -49,10 +54,10 @@
       hide-footer
     >
       <b-button class="m-3" @click="fecharModal">Cancelar</b-button>
-      <b-button class="m-3" @click="excluirItem">Confirmar</b-button>
+      <b-button class="m-3" @click="deletarProduto">Confirmar</b-button>
     </b-modal>
     <b-modal ref="modal-ver-descricao" hide-footer>
-      {{ descricao }}
+      {{ description }}
     </b-modal>
   </div>
 </template>
@@ -70,7 +75,7 @@ export default {
       items: [],
       item: {},
       isFilter: false,
-      descricao: "",
+      description: "",
     };
   },
   mounted() {
@@ -79,30 +84,52 @@ export default {
     this.getAll();
   },
   methods: {
+    // consultarQuandoParar: function consultarQuandoParar($event) {
+    //   // Se chamar mais de uma vez, cancela a chamada anterior
+
+    //   if ($event.target.value != "") {
+    //     let objThis = this;
+    //     clearTimeout(consultarQuandoParar.timeout);
+    //     setTimeout(function () {
+    //       const item = objThis.items.filter(
+    //         (item) =>
+    //           item.nome.toLowerCase() == $event.target.value.toLowerCase()
+    //       );
+    //       objThis.item = item[0];
+    //       objThis.isFilter = true;
+    //     }, 500);
+    //   } else {
+    //     this.isFilter = false;
+    //     this.item = {};
+    //   }
+    // },
     consultarQuandoParar: function consultarQuandoParar($event) {
       // Se chamar mais de uma vez, cancela a chamada anterior
 
       if ($event.target.value != "") {
         let objThis = this;
-        clearTimeout(consultarQuandoParar.timeout);
+        clearTimeout(consultarQuandoParar);
         setTimeout(function () {
-          const item = objThis.items.filter(
-            (item) =>
-              item.nome.toLowerCase() == $event.target.value.toLowerCase()
-          );
-          objThis.item = item[0];
-          objThis.isFilter = true;
+          fetch("http://127.0.0.1:5000/product/" + $event.target.value)
+            .then((response) => {
+              response.json().then((data) => {
+                objThis.item = data;
+                objThis.isFilter = true;
+              });
+            })
+            .catch((error) => console.log(error));
         }, 500);
       } else {
         this.isFilter = false;
         this.item = {};
+        this.getAll();
       }
     },
-    excluirItem() {
-      let index = this.items.indexOf(this.item);
-      this.items.splice(index, 1);
-      this.fecharModal();
-    },
+    // excluirItem() {
+    //   let index = this.items.indexOf(this.item);
+    //   this.items.splice(index, 1);
+    //   this.fecharModal();
+    // },
     pegarItemASerExcluido(item) {
       this.abrirModal();
       this.item = item;
@@ -117,8 +144,8 @@ export default {
       const d = new Date();
       return d.toLocaleDateString();
     },
-    verDescricao(descricao) {
-      this.descricao = descricao;
+    verDescricao(description) {
+      this.description = description;
       this.$refs["modal-ver-descricao"].show();
     },
     async getAll() {
@@ -128,6 +155,16 @@ export default {
             this.items = data;
             console.log(this.items);
           });
+        })
+        .catch((error) => console.log(error));
+    },
+    async deletarProduto() {
+      await fetch("http://127.0.0.1:5000/product/" + this.item, {
+        method: "DELETE",
+      })
+        .then(() => {
+          this.getAll();
+          this.fecharModal();
         })
         .catch((error) => console.log(error));
     },
