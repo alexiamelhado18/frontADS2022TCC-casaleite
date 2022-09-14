@@ -23,7 +23,7 @@ const routes = [
     component: CadastrarProduto,
   },
   {
-    path: "/AlterarProduto",
+    path: "/AlterarProduto/:id",
     name: "AlterarProduto",
     component: AlterarProduto,
   },
