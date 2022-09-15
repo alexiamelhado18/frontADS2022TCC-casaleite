@@ -1,13 +1,21 @@
 <template>
-  <div class="main w-100">
-    <div class="p-3 d-flex w-100 justify-content-between align-items-center">
+  <div class="main w-100 p-3">
+    <div
+      class="d-flex w-100 mb-2 justify-content-between align-items-center flex-wrap"
+    >
       <input
-        class="rounded"
-        type="text"
-        placeholder="Buscar por nome do produto"
-        @input="consultarQuandoParar($event)"
+        class="form-control rounded"
+        type="search"
+        aria-label="Search"
+        placeholder="Buscar pelo id do produto"
+        @input="consultarQuandoParar($event), validateValue($event)"
+        style="heigth: 47px; max-width: 317px"
+        title="Buscar pelo id do produto"
       />
-      <b-button :to="{ name: 'CadastrarProduto' }">Cadastrar produto</b-button>
+
+      <b-button class="rounded" :to="{ name: 'CadastrarProduto' }"
+        >Cadastrar produto</b-button
+      >
     </div>
     <table class="table table-striped">
       <thead>
@@ -168,15 +176,24 @@ export default {
         })
         .catch((error) => console.log(error));
     },
+    validateValue(id) {
+      let v = id.target.value;
+      console.log(v);
+      console.log(id);
+    },
   },
 };
 </script>
 <style scoped>
-/* .main {
-  padding: 30px;
-} */
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  align-items: center;
+  min-height: 100vh;
+}
 button {
-  height: 50px;
+  height: 47px;
   padding: 10px;
 }
 </style>

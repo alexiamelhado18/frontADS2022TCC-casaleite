@@ -1,100 +1,115 @@
 <template>
-  <div>
-    <b-form @submit.prevent="atualizarProduto">
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Nome:"
-        label-for="input-1"
+  <div
+    class="w-100 h-100 d-flex flex-column justify-content-around align-items-center"
+  >
+    <h2 class="mb-5 mt-3">Atualizar produto #{{ idProduct }}</h2>
+    <b-form
+      class="d-flex justify-content-center align-items-start h-100 flex-wrap w-100"
+      @submit.prevent="atualizarProduto"
+    >
+      <div
+        class="d-flex flex-column justify-content-between align-items-start m-2"
+        style="max-width: 500px; width: 500px"
       >
-        <b-form-input
-          id="input-1"
-          class="mb-2"
-          type="text"
-          required
-          v-model="item.name"
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Nome:"
+          label-for="input-1"
         >
-        </b-form-input>
-      </b-form-group>
+          <b-form-input
+            id="input-1"
+            class="mb-2 w-100"
+            type="text"
+            required
+            v-model="item.name"
+          >
+          </b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Marca:"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="input-1"
-          class="mb-2"
-          type="text"
-          required
-          v-model="item.brand"
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Marca:"
+          label-for="input-1"
         >
-        </b-form-input>
-      </b-form-group>
+          <b-form-input
+            id="input-1"
+            class="mb-2 w-100"
+            type="text"
+            required
+            v-model="item.brand"
+          >
+          </b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Cor:"
-        label-for="input-1"
-      >
-        <b-form-input
-          id="type-color"
-          class="mb-2"
-          type="text"
-          required
-          v-model="item.color"
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Cor:"
+          label-for="input-1"
         >
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Quantidade de produto em estoque:"
-        label-for="input-1"
+          <b-form-input
+            id="type-color"
+            class="mb-2 w-100"
+            type="text"
+            required
+            v-model="item.color"
+          >
+          </b-form-input>
+        </b-form-group>
+      </div>
+      <div
+        class="d-flex flex-column justify-content-between align-items-start m-2"
+        style="max-width: 500px; width: 500px"
       >
-        <b-form-input
-          id="type-number"
-          class="mb-2"
-          type="number"
-          required
-          v-model="item.quantity"
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Quantidade de produto em estoque:"
+          label-for="input-1"
         >
-        </b-form-input>
-      </b-form-group>
+          <b-form-input
+            id="type-number"
+            class="mb-2 w-100"
+            type="number"
+            required
+            v-model="item.quantity"
+          >
+          </b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        id="input-group-2"
-        label="Descrição do produto:"
-        label-for="input-2"
-      >
-        <b-form-textarea
-          id="textarea"
-          placeholder="Enter something..."
-          rows="3"
-          max-rows="6"
-          class="mb-2"
-          v-model="item.description"
+        <b-form-group
+          id="input-group-2"
+          label="Descrição do produto:"
+          label-for="input-2"
+          class="w-100"
         >
-        </b-form-textarea>
-      </b-form-group>
+          <b-form-textarea
+            id="textarea"
+            placeholder="Enter something..."
+            class="mb-2 w-100"
+            v-model="item.description"
+          >
+          </b-form-textarea>
+        </b-form-group>
 
-      <b-form-group
-        id="input-group-2"
-        label="Data de validade:"
-        label-for="input-2"
-        class="mb-2"
-      >
-        <b-form-input
-          id="type-date"
-          type="date"
-          v-model="item.expiration_date"
-        ></b-form-input>
-      </b-form-group>
-
-      <b-button type="submit" variant="primary">Atualizar</b-button>
+        <b-form-group
+          id="input-group-2"
+          label="Data de validade:"
+          label-for="input-2"
+          class="mb-2 w-100"
+        >
+          <b-form-input
+            id="type-date"
+            type="date"
+            v-model="item.expiration_date"
+          ></b-form-input>
+        </b-form-group>
+        <div class="d-flex justify-content-end align-items-center w-100">
+          <b-button type="submit" variant="primary">Atualizar</b-button>
+        </div>
+      </div>
     </b-form>
     <b-modal ref="modal-status" hide-footer>
       {{ status }}
@@ -108,10 +123,12 @@ export default {
     return {
       item: {},
       status: "",
+      idProduct: 0,
     };
   },
   mounted() {
     this.getProduto();
+    this.idProduct = this.$route.params.id;
   },
   methods: {
     getProduto() {
