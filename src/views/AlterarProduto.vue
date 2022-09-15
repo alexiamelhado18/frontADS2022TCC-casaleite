@@ -99,7 +99,7 @@
           <b-form-input
             id="type-date"
             type="date"
-            v-model="item.expiration_date"
+            v-model="date"
           ></b-form-input>
         </b-form-group>
         <div class="d-flex justify-content-end align-items-center w-100">
@@ -120,6 +120,7 @@ export default {
       item: {},
       status: "",
       idProduct: 0,
+      date: "",
     };
   },
   mounted() {
@@ -131,15 +132,16 @@ export default {
       fetch("http://127.0.0.1:5000/product/" + this.$route.params.id)
         .then((response) => {
           response.json().then((data) => {
-            console.log(data);
+            var date = `${data.expiration_date}`;
+            var newdate = date.split("/").reverse().join("-");
+            this.date = newdate;
             this.item = data;
           });
         })
         .catch((error) => console.log(error));
     },
     atualizarProduto() {
-      console.log(this.item.expiration_date);
-      // let formatDate = this.item.expiration_date.toLocaleDateString("pt-BR");
+      this.item.expiration_date = this.date;
       const requestOptions = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -155,6 +157,8 @@ export default {
           this.getProduto();
           if (response.status === 200) {
             this.status = "Seu produto foi atualizado com sucesso!";
+          } else {
+            this.status = "Não foi possível atualizar esse produto!";
           }
         })
         .catch((error) => {
