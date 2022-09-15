@@ -8,7 +8,7 @@
         type="search"
         aria-label="Search"
         placeholder="Buscar pelo id do produto"
-        @input="consultarQuandoParar($event), validateValue($event)"
+        @input="validateValue($event), consultarQuandoParar($event)"
         style="heigth: 47px; max-width: 317px"
         title="Buscar pelo id do produto"
       />
@@ -119,11 +119,10 @@ export default {
         clearTimeout(consultarQuandoParar);
         setTimeout(function () {
           fetch("http://127.0.0.1:5000/product/" + $event.target.value)
-            .then((response) => {
-              response.json().then((data) => {
-                objThis.item = data;
-                objThis.isFilter = true;
-              });
+            .then((response) => response.json())
+            .then((data) => {
+              objThis.item = data;
+              objThis.isFilter = true;
             })
             .catch((error) => console.log(error));
         }, 500);
@@ -176,10 +175,8 @@ export default {
         })
         .catch((error) => console.log(error));
     },
-    validateValue(id) {
-      let v = id.target.value;
-      console.log(v);
-      console.log(id);
+    validateValue(event) {
+      event.target.value = event.target.value.replace(/\D/g, "");
     },
   },
 };

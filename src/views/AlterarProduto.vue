@@ -39,22 +39,18 @@
             type="text"
             required
             v-model="item.brand"
+            @keyup="validateInputLetters($event)"
           >
           </b-form-input>
         </b-form-group>
 
-        <b-form-group
-          id="input-group-1"
-          class="mb-2 w-100"
-          label="Cor:"
-          label-for="input-1"
-        >
+        <b-form-group class="mb-2 w-100" label="Cor:" label-for="input-1">
           <b-form-input
-            id="type-color"
             class="mb-2 w-100"
             type="text"
             required
             v-model="item.color"
+            @keyup="validateInputLetters($event)"
           >
           </b-form-input>
         </b-form-group>
@@ -142,6 +138,8 @@ export default {
         .catch((error) => console.log(error));
     },
     atualizarProduto() {
+      console.log(this.item.expiration_date);
+      // let formatDate = this.item.expiration_date.toLocaleDateString("pt-BR");
       const requestOptions = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -153,21 +151,30 @@ export default {
         requestOptions
       )
         .then((response) => {
+          this.abrirModal();
           this.getProduto();
           if (response.status === 200) {
             this.status = "Seu produto foi atualizado com sucesso!";
-          } else {
+          }
+        })
+        .catch((error) => {
+          this.abrirModal();
+          if (error.status !== 200) {
             this.status = "Não foi possível atualizar esse produto!";
           }
-          this.abrirModal();
-        })
-        .catch((error) => console.log(error));
+        });
     },
     abrirModal() {
       this.$refs["modal-status"].show();
     },
     fecharModal() {
       this.$refs["modal-status"].hide();
+    },
+    validateInputLetters(event) {
+      event.target.value = event.target.value.replace(
+        /[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g,
+        ""
+      );
     },
   },
 };
