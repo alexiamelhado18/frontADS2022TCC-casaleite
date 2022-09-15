@@ -1,76 +1,97 @@
 <template>
-  <div>
-    <b-form>
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Nome:"
-        label-for="input-1"
+  <div
+    class="w-100 h-100 d-flex flex-column justify-content-around align-items-center"
+  >
+    <h2 class="mb-5 mt-3">Cadastrar produto</h2>
+    <b-form
+      class="d-flex justify-content-center align-items-start h-100 flex-wrap w-100"
+    >
+      <div
+        class="d-flex flex-column justify-content-between align-items-start m-2"
+        style="max-width: 500px; width: 500px"
       >
-        <b-form-input id="input-1" class="mb-2" type="text" required>
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Marca:"
-        label-for="input-1"
-      >
-        <b-form-input id="input-1" class="mb-2" type="text" required>
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Cor:"
-        label-for="input-1"
-      >
-        <b-form-input id="type-color" class="mb-2" type="color" required>
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-1"
-        class="mb-2"
-        label="Quantidade de produto em estoque:"
-        label-for="input-1"
-      >
-        <b-form-input id="type-number" class="mb-2" type="number" required>
-        </b-form-input>
-      </b-form-group>
-
-      <b-form-group
-        id="input-group-2"
-        label="Descrição do produto:"
-        label-for="input-2"
-      >
-        <b-form-textarea
-          id="textarea"
-          v-model="text"
-          placeholder="Enter something..."
-          rows="3"
-          max-rows="6"
-          class="mb-2"
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Nome:"
+          label-for="input-1"
         >
-        </b-form-textarea>
-      </b-form-group>
+          <b-form-input id="input-1" class="mb-2 w-100" type="text" required>
+          </b-form-input>
+        </b-form-group>
 
-      <b-form-group
-        id="input-group-2"
-        label="Data de validade:"
-        label-for="input-2"
-        class="mb-2"
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Marca:"
+          label-for="input-1"
+        >
+          <b-form-input id="input-1" class="mb-2 w-100" type="text" required>
+          </b-form-input>
+        </b-form-group>
+
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Cor:"
+          label-for="input-1"
+        >
+          <b-form-input id="type-color" class="mb-2 w-100" type="text" required>
+          </b-form-input>
+        </b-form-group>
+      </div>
+      <div
+        class="d-flex flex-column justify-content-between align-items-start m-2"
+        style="max-width: 500px; width: 500px"
       >
-        <b-form-input id="type-date" type="date"></b-form-input>
-      </b-form-group>
+        <b-form-group
+          id="input-group-1"
+          class="mb-2 w-100"
+          label="Quantidade de produto em estoque:"
+          label-for="input-1"
+        >
+          <b-form-input
+            id="type-number"
+            class="mb-2 w-100"
+            type="number"
+            required
+          >
+          </b-form-input>
+        </b-form-group>
 
-      <b-button type="reset" variant="danger">Limpar</b-button>
-      <b-button type="submit" variant="primary">Criar</b-button>
+        <b-form-group
+          id="input-group-2"
+          label="Descrição do produto:"
+          label-for="input-2"
+          class="w-100"
+        >
+          <b-form-textarea
+            id="textarea"
+            placeholder="Enter something..."
+            class="mb-2 w-100"
+          >
+          </b-form-textarea>
+        </b-form-group>
+
+        <b-form-group
+          id="input-group-2"
+          label="Data de validade:"
+          label-for="input-2"
+          class="mb-2 w-100"
+        >
+          <b-form-input id="type-date" type="date"></b-form-input>
+        </b-form-group>
+        <div class="d-flex justify-content-end align-items-center w-100">
+          <b-button type="submit" variant="primary">Cadastrar</b-button>
+        </div>
+      </div>
     </b-form>
+    <b-modal ref="modal-status" hide-footer>
+      <!-- Mostrar msg do response da api -->
+    </b-modal>
   </div>
 </template>
+
 <script>
 export default {
   name: "CadastrarProduto",
