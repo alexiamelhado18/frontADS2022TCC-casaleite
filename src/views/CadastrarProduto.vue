@@ -2,6 +2,7 @@
   <div
     class="w-100 h-100 d-flex flex-column justify-content-around align-items-center"
   >
+    <Voltar />
     <h2 class="mb-5 mt-3">Cadastrar produto</h2>
     <b-form
       class="d-flex justify-content-center align-items-start h-100 flex-wrap w-100"
@@ -55,6 +56,7 @@
             type="text"
             required
             v-model="item.color"
+            @keyup="validateInputLetters($event)"
           >
           </b-form-input>
         </b-form-group>
@@ -112,21 +114,22 @@
         </div>
       </div>
     </b-form>
-    <b-modal
-      ref="modal-confirmar-cadastro"
-      title="Produto Cadastrado com Sucesso!"
-      hide-footer
-    >
-    </b-modal>
-    <b-modal ref="modal-status" hide-footer>
+
+    <b-modal ref="modal-confirmar-cadastro" hide-footer>
       <!-- Mostrar msg do response da api -->
+      {{ status }}
     </b-modal>
   </div>
 </template>
 
 <script>
+import Voltar from "../components/Voltar.vue";
+
 export default {
   name: "CadastrarProduto",
+  components: {
+    Voltar,
+  },
   data() {
     return {
       item: {},
@@ -140,11 +143,15 @@ export default {
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(this.item),
       };
+
       fetch("http://127.0.0.1:5000/product/", requestOptions)
         .then((response) => {
           if (response.status === 201) {
             this.status = "Seu produto foi cadastrado com sucesso!";
             this.abrirModal();
+
+            //limpa valores dos campos
+            this.item = {};
           } else {
             this.status = "Não foi possível cadastrar esse produto!";
           }
@@ -153,6 +160,12 @@ export default {
     },
     abrirModal() {
       this.$refs["modal-confirmar-cadastro"].show();
+    },
+    validateInputLetters(event) {
+      event.target.value = event.target.value.replace(
+        /[^A-Za-záàâãéèêíïóôõöúçñÁÀÂÃÉÈÍÏÓÔÕÖÚÇÑ ]/g,
+        ""
+      );
     },
   },
 };

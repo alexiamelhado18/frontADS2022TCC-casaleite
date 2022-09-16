@@ -2,6 +2,7 @@
   <div
     class="w-100 h-100 d-flex flex-column justify-content-around align-items-center"
   >
+    <Voltar />
     <h2 class="mb-5 mt-3">Atualizar produto #{{ idProduct }}</h2>
     <b-form
       class="d-flex justify-content-center align-items-start h-100 flex-wrap w-100"
@@ -39,7 +40,6 @@
             type="text"
             required
             v-model="item.brand"
-            @keyup="validateInputLetters($event)"
           >
           </b-form-input>
         </b-form-group>
@@ -113,8 +113,12 @@
   </div>
 </template>
 <script>
+import Voltar from "../components/Voltar.vue";
 export default {
   name: "AlterarProduto",
+  components: {
+    Voltar,
+  },
   data() {
     return {
       item: {},
@@ -134,6 +138,7 @@ export default {
           response.json().then((data) => {
             var date = `${data.expiration_date}`;
             var newdate = date.split("/").reverse().join("-");
+
             this.date = newdate;
             this.item = data;
           });
@@ -142,6 +147,7 @@ export default {
     },
     atualizarProduto() {
       this.item.expiration_date = this.date;
+
       const requestOptions = {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
@@ -153,19 +159,19 @@ export default {
         requestOptions
       )
         .then((response) => {
-          this.abrirModal();
           this.getProduto();
           if (response.status === 200) {
             this.status = "Seu produto foi atualizado com sucesso!";
           } else {
             this.status = "Não foi possível atualizar esse produto!";
           }
+          this.abrirModal();
         })
         .catch((error) => {
-          this.abrirModal();
           if (error.status !== 200) {
             this.status = "Não foi possível atualizar esse produto!";
           }
+          this.abrirModal();
         });
     },
     abrirModal() {

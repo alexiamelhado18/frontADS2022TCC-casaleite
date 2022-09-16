@@ -17,45 +17,48 @@
         >Cadastrar produto</b-button
       >
     </div>
-    <table class="table table-striped">
-      <thead>
-        <tr>
-          <th scope="col">Id</th>
-          <th scope="col">Nome</th>
-          <th scope="col">Marca</th>
-          <th scope="col">Descricao</th>
-          <th scope="col">Data de expiração</th>
-          <th scope="col">Estoque</th>
-          <th scope="col">Ações</th>
-        </tr>
-      </thead>
-      <tbody v-if="!isFilter">
-        <ComponentProduto
-          v-for="item in items"
-          :key="item.id"
-          :id="item.id"
-          :nome="item.name"
-          :estoque="item.quantity"
-          :data_expiracao="item.expiration_date"
-          :marca="item.brand"
-          :color="item.color"
-          @setarItemExclusao="pegarItemASerExcluido(item.id)"
-          @verDescricao="verDescricao(item.description)"
-        />
-      </tbody>
-      <tbody v-else>
-        <ComponentProduto
-          :id="item.id"
-          :nome="item.name"
-          :estoque="item.quantity"
-          :data_expiracao="item.expiration_date"
-          :marca="item.brand"
-          :color="item.color"
-          @setarItemExclusao="pegarItemASerExcluido(item.id)"
-          @verDescricao="verDescricao(item.description)"
-        />
-      </tbody>
-    </table>
+    <div class="table-responsive w-100">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th scope="col">Id</th>
+            <th scope="col">Nome</th>
+            <th scope="col">Marca</th>
+            <th scope="col">Descricao</th>
+            <th scope="col">Data de expiração</th>
+            <th scope="col">Estoque</th>
+            <th scope="col">Ações</th>
+          </tr>
+        </thead>
+        <tbody v-if="!isFilter">
+          <ComponentProduto
+            v-for="item in items"
+            :key="item.id"
+            :id="item.id"
+            :nome="item.name"
+            :estoque="item.quantity"
+            :data_expiracao="item.expiration_date"
+            :marca="item.brand"
+            :color="item.color"
+            @setarItemExclusao="pegarItemASerExcluido(item.id)"
+            @verDescricao="verDescricao(item.description)"
+          />
+        </tbody>
+        <tbody v-else>
+          <ComponentProduto
+            :id="item.id"
+            :nome="item.name"
+            :estoque="item.quantity"
+            :data_expiracao="item.expiration_date"
+            :marca="item.brand"
+            :color="item.color"
+            @setarItemExclusao="pegarItemASerExcluido(item.id)"
+            @verDescricao="verDescricao(item.description)"
+          />
+        </tbody>
+      </table>
+    </div>
+
     <b-modal
       ref="modal-excluir-item"
       title="Deseja realmente excluir esse produto?"
@@ -116,7 +119,9 @@ export default {
 
       if ($event.target.value != "") {
         let objThis = this;
+
         clearTimeout(consultarQuandoParar);
+
         setTimeout(function () {
           fetch("http://127.0.0.1:5000/product/" + $event.target.value)
             .then((response) => response.json())
@@ -138,18 +143,14 @@ export default {
     //   this.fecharModal();
     // },
     pegarItemASerExcluido(item) {
-      this.abrirModal();
       this.item = item;
+      this.abrirModal();
     },
     abrirModal() {
       this.$refs["modal-excluir-item"].show();
     },
     fecharModal() {
       this.$refs["modal-excluir-item"].hide();
-    },
-    dateNow() {
-      const d = new Date();
-      return d.toLocaleDateString();
     },
     verDescricao(description) {
       this.description = description;
@@ -160,7 +161,6 @@ export default {
         .then((response) => {
           response.json().then((data) => {
             this.items = data;
-            console.log(this.items);
           });
         })
         .catch((error) => console.log(error));
