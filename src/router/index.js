@@ -4,6 +4,7 @@ import Produtos from "../views/Produtos.vue";
 import Home from "../views/Home.vue";
 import CadastrarProduto from "../views/CadastrarProduto.vue";
 import AlterarProduto from "../views/AlterarProduto.vue";
+import ProdutosCliente from "../views/ProdutosCliente.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -26,6 +27,11 @@ const routes = [
     path: "/AlterarProduto/:id",
     name: "AlterarProduto",
     component: AlterarProduto,
+  },
+  {
+    path: "/produtoscliente",
+    name: "ProdutosCliente",
+    component: ProdutosCliente,
   },
 ];
 
