@@ -5,6 +5,7 @@ import Home from "../views/Home.vue";
 import CadastrarProduto from "../views/CadastrarProduto.vue";
 import AlterarProduto from "../views/AlterarProduto.vue";
 import ProdutosCliente from "../views/ProdutosCliente.vue";
+import DetalhesProduto from "../views/DetalhesProduto.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -32,6 +33,11 @@ const routes = [
     path: "/produtoscliente",
     name: "ProdutosCliente",
     component: ProdutosCliente,
+  },
+  {
+    path: "/DetalhesProduto/:id",
+    name: "DetalhesProduto",
+    component: DetalhesProduto,
   },
 ];
 

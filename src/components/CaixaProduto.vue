@@ -9,7 +9,13 @@
         {{ descricao }}
       </p>
       <p class="card-text"><b>Valor: </b>{{ preco | toCurrency }}</p>
-      <a href="#" class="btn btn-primary">Detalhes</a>
+      <!-- <a href="DetalhesProduto" class="btn btn-primary">Detalhes</a> -->
+      <router-link
+        class="btn btn-primary"
+        :to="{ name: 'DetalhesProduto', params: { id: id } }"
+      >
+        Detalhes
+      </router-link>
     </div>
   </div>
 </template>
@@ -21,6 +27,7 @@ export default {
     descricao: String,
     preco: Number,
     imagem: String,
+    id: Number,
   },
 };
 </script>

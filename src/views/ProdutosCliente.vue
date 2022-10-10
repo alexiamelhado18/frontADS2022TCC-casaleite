@@ -14,6 +14,7 @@
           :descricao="item.description"
           :imagem="item.picture"
           :preco="item.price"
+          :id="item.id"
         />
       </div>
     </div>
