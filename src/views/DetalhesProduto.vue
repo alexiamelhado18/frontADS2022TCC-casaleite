@@ -31,7 +31,7 @@
       "
     >
       <img
-        src="https://feliztintas.com.br/wp-content/uploads/2018/02/tinta-super-lavavel-lata-3.jpg"
+        :src="item.picture"
         alt=""
         style="
           width: 100%;
