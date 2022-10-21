@@ -18,6 +18,23 @@
         />
       </div>
     </div>
+    <nav aria-label="...">
+      <p class="pt-2">Pages</p>
+      <ul class="pagination">
+        <li class="page-item" v-for="page in pages" :key="page">
+          <a v-if="page === null">...</a>
+          <a
+            class="page-link active"
+            v-else-if="page == $route.query.page"
+            :href="$route.path + '?page=' + page"
+            >{{ page }}</a
+          >
+          <a class="page-link" v-else :href="$route.path + '?page=' + page">{{
+            page
+          }}</a>
+        </li>
+      </ul>
+    </nav>
   </div>
 </template>
 <script>
@@ -31,6 +48,7 @@ export default {
   data() {
     return {
       items: [],
+      pages: [],
     };
   },
   mounted() {
@@ -38,10 +56,13 @@ export default {
   },
   methods: {
     async getAll() {
-      await fetch("http://127.0.0.1:5000/product/")
+      var page;
+      page = this.$route.query.page ?? 1;
+      await fetch("http://127.0.0.1:5000/product?limit=9&page=" + page)
         .then((response) => {
           response.json().then((data) => {
-            this.items = data;
+            this.items = data.products;
+            this.pages = data.iter_pages;
           });
         })
         .catch((error) => console.log(error));
