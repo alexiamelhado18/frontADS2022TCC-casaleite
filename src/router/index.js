@@ -1,23 +1,22 @@
 import Vue from "vue";
 import VueRouter from "vue-router";
-import Produtos from "../views/Produtos.vue";
-import Home from "../views/Home.vue";
+import GerenciarProduto from "../views/GerenciarProduto.vue";
 import CadastrarProduto from "../views/CadastrarProduto.vue";
 import AlterarProduto from "../views/AlterarProduto.vue";
-import ProdutosCliente from "../views/ProdutosCliente.vue";
+import Produtos from "../views/Produtos.vue";
 import DetalhesProduto from "../views/DetalhesProduto.vue";
 Vue.use(VueRouter);
 
 const routes = [
   {
-    path: "/",
-    name: "HomeVue",
-    component: Home,
+    path: "/GerenciarProduto",
+    name: "GerenciarProduto",
+    component: GerenciarProduto,
   },
   {
-    path: "/Produtos",
-    name: "Produtos",
-    component: Produtos,
+    path: "/",
+    name: "GerenciarProduto",
+    component: GerenciarProduto,
   },
   {
     path: "/CadastrarProduto",
@@ -30,9 +29,9 @@ const routes = [
     component: AlterarProduto,
   },
   {
-    path: "/produtoscliente",
-    name: "ProdutosCliente",
-    component: ProdutosCliente,
+    path: "/Produtos",
+    name: "Produtos",
+    component: Produtos,
   },
   {
     path: "/DetalhesProduto/:id",
