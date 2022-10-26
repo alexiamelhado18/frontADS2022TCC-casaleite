@@ -1,107 +1,34 @@
 <template>
   <div
     class="d-flex justify-content-between flex-column align-items-center w-100"
-    style="background-color: #white; width: 100vw; height: 100vh"
+    style="min-height: 100vh"
   >
-    <h1
-      style="
-        background-color: #white;
-        justify-content: center;
-        width: 90vw;
-        height: 5vh;
-        text-align: center;
-        border-radius: 8px;
-        display: flex;
-        align-items: center;
-        margin: 40px;
-        text-shadow: 0px 1px 2px grey;
-      "
-    >
+    <Voltar />
+    <h2 class="w-100" style="text-align: start; padding: 0 5%">
       {{ item.name }}
-    </h1>
-
+    </h2>
     <div
-      class="d-flex justify-content-between align-items-center w-100"
-      style="
-        background-color: #white;
-        width: 100vw;
-        height: 50vw;
-        border-radius: 8px;
-        margin: 0px;
-      "
+      class="d-flex justify-content-between flex-column align-items-center w-100"
+      style="padding: 0 5% 5% 5%"
     >
-      <img
-        :src="item.picture"
-        alt=""
-        style="
-          width: 100%;
-          height: 70vh;
-          align-items: center;
-          margin: 5%;
-          border-radius: 8px;
-          border-color: #f5f5f5;
-        "
-      />
       <div
-        class="d-flex justify-content-between flex-column align-items-center w-100"
-        style="
-          background-color: #white;
-          width: 70%;
-          height: 60vh;
-          margin: 5%;
-          border-radius: 8px;
-          padding: 0px 0px 150px;
-        "
+        class="d-flex flex-wrap justify-content-between align-items-start w-100"
       >
-        <h1
-          style="
-            width: 100%;
-            text-align: left;
-            display: flex;
-            justify-content: left;
-            text-shadow: 0px 1px 1px grey;
-          "
+        <img
+          :src="item.picture"
+          alt=""
+          style="max-width: 100%; max-height: 100%; border-radius: 8px"
+        />
+        <div
+          class="d-flex justify-content-between flex-column align-items-start"
         >
-          Descrição:
-        </h1>
-        <div class="d-flex justify-content-between align-items-center w-100">
-          <span
-            style="
-              padding: 10px;
-              text-align: top;
-              display: flex;
-              justify-content: top;
-              background-color: #f5f5f5;
-              width: 50%;
-              height: 35vh;
-              margin-right: 2%;
-              align-items: top;
-              border-radius: 10px;
-              border-width: 10px;
-            "
-            >{{ item.description }}</span
+          <h4>Descrição</h4>
+          <div
+            class="d-flex flex-column justify-content-between align-items-center"
           >
-          <button
-            style="
-              width: 40%;
-              height: 10vh;
-              padding: 20px;
-              margin: 30px;
-              margin-top: 30%;
-              border: none;
-              border-radius: 10px;
-              text-transform: uppercase;
-              font-weight: 800;
-              letter-spacing: 2px;
-              color: #2b134b;
-              background: #dcdcdc;
-              cursor: pointer;
-              box-shadow: 0px 10px 20px -12px grey;
-            "
-            type="button"
-          >
-            Comprar
-          </button>
+            <span style="max-width: 400px">{{ item.description }}</span>
+            <b-button class="mt-5"> Adicionar no carrinho </b-button>
+          </div>
         </div>
       </div>
     </div>
@@ -109,8 +36,11 @@
 </template>
 
 <script>
+import Voltar from "../components/Voltar.vue";
+
 export default {
   name: "DetalhesProduto",
+  components: { Voltar },
   data() {
     return { id: 0, item: {} };
   },
