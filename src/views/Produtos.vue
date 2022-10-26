@@ -1,196 +1,77 @@
 <template>
-  <div class="main w-100 p-3">
-    <div
-      class="d-flex w-100 mb-2 justify-content-between align-items-center flex-wrap"
-    >
-      <input
-        class="form-control rounded"
-        type="search"
-        aria-label="Search"
-        placeholder="Buscar pelo id do produto"
-        @input="validateValue($event), consultarQuandoParar($event)"
-        style="heigth: 47px; max-width: 317px"
-        title="Buscar pelo id do produto"
-      />
-
-      <b-button class="rounded" :to="{ name: 'CadastrarProduto' }"
-        >Cadastrar produto</b-button
-      >
-    </div>
-    <div class="table-responsive w-100">
-      <table class="table table-striped">
-        <thead>
-          <tr>
-            <th scope="col">Id</th>
-            <th scope="col">Nome</th>
-            <th scope="col">Marca</th>
-            <th scope="col">Descricao</th>
-            <th scope="col">Data de expiração</th>
-            <th scope="col">Estoque</th>
-            <th scope="col">Ações</th>
-          </tr>
-        </thead>
-        <tbody v-if="!isFilter">
-          <ComponentProduto
-            v-for="item in items"
-            :key="item.id"
-            :id="item.id"
+  <div
+    class="d-flex w-100 flex-column justify-content-between align-items-center"
+  >
+    <Voltar />
+    <div style="padding: 0 5% 5% 5%">
+      <h4>Produtos</h4>
+      <div class="row">
+        <div
+          v-for="item in items"
+          :key="item.id"
+          class="col-md-6 col-xl-4 col-12 pt-4 d-flex"
+        >
+          <ComponentCaixaProduto
             :nome="item.name"
-            :estoque="item.quantity"
-            :data_expiracao="item.expiration_date"
-            :marca="item.brand"
-            :color="item.color"
-            @setarItemExclusao="pegarItemASerExcluido(item.id)"
-            @verDescricao="verDescricao(item.description)"
-          />
-        </tbody>
-        <tbody v-else>
-          <ComponentProduto
+            :descricao="item.description"
+            :imagem="item.picture"
+            :preco="item.price"
             :id="item.id"
-            :nome="item.name"
-            :estoque="item.quantity"
-            :data_expiracao="item.expiration_date"
-            :marca="item.brand"
-            :color="item.color"
-            @setarItemExclusao="pegarItemASerExcluido(item.id)"
-            @verDescricao="verDescricao(item.description)"
           />
-        </tbody>
-      </table>
+        </div>
+      </div>
+      <nav aria-label="...">
+        <p class="pt-2">Pages</p>
+        <ul class="pagination">
+          <li class="page-item" v-for="page in pages" :key="page">
+            <a v-if="page === null">...</a>
+            <a
+              class="page-link active"
+              v-else-if="page == $route.query.page"
+              :href="$route.path + '?page=' + page"
+              >{{ page }}</a
+            >
+            <a class="page-link" v-else :href="$route.path + '?page=' + page">{{
+              page
+            }}</a>
+          </li>
+        </ul>
+      </nav>
     </div>
-
-    <b-modal
-      ref="modal-excluir-item"
-      title="Deseja realmente excluir esse produto?"
-      hide-footer
-    >
-      <b-button class="m-3" @click="fecharModal">Cancelar</b-button>
-      <b-button class="m-3" @click="deletarProduto">Confirmar</b-button>
-    </b-modal>
-    <b-modal ref="modal-ver-descricao" hide-footer>
-      {{ description }}
-    </b-modal>
   </div>
 </template>
-
 <script>
-import ComponentProduto from "@/components/Produto.vue";
+import ComponentCaixaProduto from "@/components/CaixaProduto.vue";
+import Voltar from "../components/Voltar.vue";
 
 export default {
-  name: "ProdutosView",
+  name: "ProdutosClienteView",
   components: {
-    ComponentProduto,
+    ComponentCaixaProduto,
+    Voltar,
   },
   data() {
     return {
       items: [],
-      item: {},
-      isFilter: false,
-      description: "",
+      pages: [],
     };
   },
   mounted() {
-    // faz prte do ciclo de vida do vue e só aciona
-    //ele enquanto estiver no reload apos carregar os elementos(HTML)
     this.getAll();
   },
   methods: {
-    // consultarQuandoParar: function consultarQuandoParar($event) {
-    //   // Se chamar mais de uma vez, cancela a chamada anterior
-
-    //   if ($event.target.value != "") {
-    //     let objThis = this;
-    //     clearTimeout(consultarQuandoParar.timeout);
-    //     setTimeout(function () {
-    //       const item = objThis.items.filter(
-    //         (item) =>
-    //           item.nome.toLowerCase() == $event.target.value.toLowerCase()
-    //       );
-    //       objThis.item = item[0];
-    //       objThis.isFilter = true;
-    //     }, 500);
-    //   } else {
-    //     this.isFilter = false;
-    //     this.item = {};
-    //   }
-    // },
-    consultarQuandoParar: function consultarQuandoParar($event) {
-      // Se chamar mais de uma vez, cancela a chamada anterior
-
-      if ($event.target.value != "") {
-        let objThis = this;
-
-        clearTimeout(consultarQuandoParar);
-
-        setTimeout(function () {
-          fetch("http://127.0.0.1:5000/product/" + $event.target.value)
-            .then((response) => response.json())
-            .then((data) => {
-              objThis.item = data;
-              objThis.isFilter = true;
-            })
-            .catch((error) => console.log(error));
-        }, 500);
-      } else {
-        this.isFilter = false;
-        this.item = {};
-        this.getAll();
-      }
-    },
-    // excluirItem() {
-    //   let index = this.items.indexOf(this.item);
-    //   this.items.splice(index, 1);
-    //   this.fecharModal();
-    // },
-    pegarItemASerExcluido(item) {
-      this.item = item;
-      this.abrirModal();
-    },
-    abrirModal() {
-      this.$refs["modal-excluir-item"].show();
-    },
-    fecharModal() {
-      this.$refs["modal-excluir-item"].hide();
-    },
-    verDescricao(description) {
-      this.description = description;
-      this.$refs["modal-ver-descricao"].show();
-    },
     async getAll() {
-      await fetch("http://127.0.0.1:5000/product/")
+      var page;
+      page = this.$route.query.page ?? 1;
+      await fetch("http://127.0.0.1:5000/product?limit=9&page=" + page)
         .then((response) => {
           response.json().then((data) => {
-            this.items = data;
+            this.items = data.products;
+            this.pages = data.iter_pages;
           });
         })
         .catch((error) => console.log(error));
     },
-    async deletarProduto() {
-      await fetch("http://127.0.0.1:5000/product/" + this.item, {
-        method: "DELETE",
-      })
-        .then(() => {
-          this.getAll();
-          this.fecharModal();
-        })
-        .catch((error) => console.log(error));
-    },
-    validateValue(event) {
-      event.target.value = event.target.value.replace(/\D/g, "");
-    },
   },
 };
 </script>
-<style scoped>
-.main {
-  display: flex;
-  flex-direction: column;
-  justify-content: space-around;
-  align-items: center;
-  min-height: 100vh;
-}
-button {
-  height: 47px;
-  padding: 10px;
-}
-</style>
