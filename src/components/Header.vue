@@ -16,11 +16,8 @@
       />
     </RouterLink>
     <nav class="w-100 d-flex justify-content-center align-items-center">
-      <RouterLink
-        class="text-decoration-none"
-        :to="{ name: 'Produtos' }"
-        style="color: #fff"
-        >Materias</RouterLink
+      <a class="text-decoration-none" href="/Produtos" style="color: #fff"
+        >Materias</a
       >
     </nav>
   </header>
