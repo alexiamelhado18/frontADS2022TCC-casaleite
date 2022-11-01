@@ -27,6 +27,9 @@
             class="d-flex flex-column justify-content-between align-items-center"
           >
             <span style="max-width: 400px">{{ item.description }}</span>
+            <span style="max-width: 400px"
+              ><b>Estoque:</b> {{ item.quantity }}</span
+            >
             <b-button class="mt-5"> Adicionar no carrinho </b-button>
           </div>
         </div>

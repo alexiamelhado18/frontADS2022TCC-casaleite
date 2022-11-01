@@ -13,7 +13,6 @@
           {{ category.name }}
         </b-dropdown-item>
       </b-dropdown>
-      <h4>Produtos</h4>
       <div class="row">
         <div
           v-for="item in items"
@@ -26,6 +25,7 @@
             :imagem="item.picture"
             :preco="item.price"
             :id="item.id"
+            :quantidade="item.quantity"
           />
         </div>
       </div>

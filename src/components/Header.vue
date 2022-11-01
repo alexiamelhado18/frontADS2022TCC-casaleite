@@ -17,7 +17,7 @@
     </RouterLink>
     <nav class="w-100 d-flex justify-content-center align-items-center">
       <a class="text-decoration-none" href="/Produtos" style="color: #fff"
-        >Materias</a
+        >Produtos</a
       >
     </nav>
   </header>
