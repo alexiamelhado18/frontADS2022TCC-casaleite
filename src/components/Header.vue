@@ -20,13 +20,15 @@
         >Produtos</a
       >
     </nav>
+    <Carrinho :qtd="1" />
   </header>
 </template>
 <script>
 import { RouterLink } from "vue-router";
+import Carrinho from "./Carrinho.vue";
 
 export default {
   name: "NavBar",
-  components: { RouterLink },
+  components: { RouterLink, Carrinho },
 };
 </script>

@@ -1,7 +1,6 @@
 <template>
   <div
     class="d-flex justify-content-between flex-column align-items-center w-100"
-    style="min-height: 100vh"
   >
     <Voltar />
     <h2 class="w-100" style="text-align: start; padding: 0 5%">
@@ -17,7 +16,12 @@
         <img
           :src="item.picture"
           alt=""
-          style="max-width: 100%; max-height: 100%; border-radius: 8px"
+          style="
+            max-width: 100%;
+            margin: 17px 0;
+            height: 300px;
+            border-radius: 8px;
+          "
         />
         <div
           class="d-flex justify-content-between flex-column align-items-start"
@@ -26,8 +30,10 @@
           <div
             class="d-flex flex-column justify-content-between align-items-center"
           >
-            <span style="max-width: 400px">{{ item.description }}</span>
-            <span style="max-width: 400px"
+            <span style="max-width: 400px; margin-bottom: 0.5rem">{{
+              item.description
+            }}</span>
+            <span style="max-width: 400px" class="w-100"
               ><b>Estoque:</b> {{ item.quantity }}</span
             >
             <b-button class="mt-5"> Adicionar no carrinho </b-button>
