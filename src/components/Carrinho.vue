@@ -1,6 +1,8 @@
 <template>
   <div style="position: relative; cursor: pointer">
-    <b-icon style="cursor: pointer" icon="cart3" aria-hidden="true"></b-icon>
+    <a href="/Carrinho" style="color: inherit"
+      ><b-icon style="cursor: pointer" icon="cart3" aria-hidden="true"></b-icon
+    ></a>
     <span
       v-if="qtd > 0"
       style="

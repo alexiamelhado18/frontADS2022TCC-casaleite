@@ -1,15 +1,15 @@
 <template>
-    <div>
-        <button>-</button>
-        <p>{{ qtd }}</p>
-        <button>+</button>
-    </div>
+  <div>
+    <button>-</button>
+    <p>{{ qtd }}</p>
+    <button>+</button>
+  </div>
 </template>
 <script>
-export default{
-    name: "QuantidadeProduto",
-    props:{
-        qtd: Number,
-    },
-}
+export default {
+  name: "QuantidadeProduto",
+  props: {
+    qtd: Number,
+  },
+};
 </script>
