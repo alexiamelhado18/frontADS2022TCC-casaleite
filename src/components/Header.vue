@@ -20,7 +20,7 @@
         >Produtos</a
       >
     </nav>
-    <Carrinho :qtd="1" />
+    <Carrinho />
   </header>
 </template>
 <script>

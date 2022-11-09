@@ -1,6 +1,6 @@
 <template>
   <div
-    class="d-flex justify-content-between flex-column align-items-center w-100"
+    class="d-flex justify-content-between flex-column align-items-center w-100 position-relative"
   >
     <Voltar />
     <h2 class="w-100" style="text-align: start; padding: 0 5%">
@@ -118,17 +118,18 @@ export default {
           quantity: this.counter,
         }),
       };
-
-      fetch("http://127.0.0.1:5000/shopping_cart/add", requestOptions)
-        .then((response) => {
-          if (response.status === 200) {
-            this.status = "O produto foi adicionado ao carrinho";
-            this.abrirModal();
-          } else {
-            this.status = "Houve algum erro ao adicionar ao carrinho!";
-          }
-        })
-        .catch((error) => console.log(error));
+      if (this.counter > 0) {
+        fetch("http://127.0.0.1:5000/shopping_cart/add", requestOptions)
+          .then((response) => {
+            if (response.status === 200) {
+              this.status = "O produto foi adicionado ao carrinho";
+              this.abrirModal();
+            } else {
+              this.status = "Houve algum erro ao adicionar ao carrinho!";
+            }
+          })
+          .catch((error) => console.log(error));
+      }
     },
     abrirModal() {
       this.$refs["modal-adicionar-carrinho"].show();

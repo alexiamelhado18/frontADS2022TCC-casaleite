@@ -30,21 +30,25 @@
     <b-modal ref="modal-ver-descricao" hide-footer>
       {{ description }}
     </b-modal>
+    <FooterCarrinho :total="total" />
   </div>
 </template>
 
 <script>
+import FooterCarrinho from "@/components/FooterCarrinho.vue";
 import ItemCarrinho from "../components/ItemCarrinho.vue";
 
 export default {
   name: "ListaCarrinho",
   components: {
     ItemCarrinho,
+    FooterCarrinho,
   },
   data() {
     return {
       cart: {},
       description: "",
+      total: 0,
     };
   },
   mounted() {
@@ -56,6 +60,7 @@ export default {
         .then((response) => {
           response.json().then((data) => {
             this.cart = data;
+            this.total = data.total_price;
           });
         })
         .catch((error) => console.log(error));
@@ -67,3 +72,10 @@ export default {
   },
 };
 </script>
+<style>
+.main {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+</style>

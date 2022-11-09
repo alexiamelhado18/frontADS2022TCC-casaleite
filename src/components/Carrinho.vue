@@ -1,8 +1,8 @@
 <template>
   <div style="position: relative; cursor: pointer">
-    <a href="/Carrinho" style="color: inherit"
-      ><b-icon style="cursor: pointer" icon="cart3" aria-hidden="true"></b-icon
-    ></a>
+    <a href="/Carrinho" style="color: inherit">
+      <b-icon style="cursor: pointer" icon="cart3" aria-hidden="true"></b-icon>
+    </a>
     <span
       v-if="qtd > 0"
       style="
@@ -26,7 +26,20 @@
 export default {
   name: "Carrinho",
   props: {
-    qtd: Number,
+    qtd: { type: Number, default: 0 },
+  },
+  data() {
+    return {};
+  },
+  async created() {
+    console.log("entrou");
+    await fetch("http://127.0.0.1:5000/shopping_cart/1")
+      .then((response) => {
+        response.json().then((data) => {
+          this.$props.qtd = Object.keys(data.items).length;
+        });
+      })
+      .catch((error) => console.log(error));
   },
 };
 </script>
