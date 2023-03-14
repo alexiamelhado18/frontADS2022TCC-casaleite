@@ -20,6 +20,11 @@
         >Produtos</a
       >
     </nav>
+    <nav class="w-100">
+      <a class="text-decoration-none" href="/Pedidos" style="color: #fff"
+        >Meus Pedidos</a
+      >
+    </nav>
     <Carrinho />
   </header>
 </template>

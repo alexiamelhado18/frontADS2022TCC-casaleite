@@ -4,6 +4,7 @@
       class="d-flex flex-column w-100 justify-content-between align-items-center"
       style="padding: 0 5% 5% 5%; margin-top: 100px"
     >
+      <h2>Resumo do Pedido</h2>
       <div class="table-responsive w-100">
         <table class="table table-striped">
           <thead>
@@ -24,34 +25,84 @@
               :preco="item.price"
               @verDescricao="verDescricao(item.description)"
             />
-            <b-button class="m-3" @click="removerProduto(key)"
-              >Remover</b-button
-            >
           </tbody>
         </table>
+        <form>
+          <h3>Dados de entrega</h3>
+          <div class="form-group">
+            <label for="address">Endereço de entrega</label>
+            <input
+              class="form-control"
+              v-model="address"
+              placeholder="Avenida Brasil, 123"
+            />
+          </div>
+          <div class="form-group">
+            <label for="city">Cidade</label>
+            <input
+              class="form-control"
+              v-model="city"
+              placeholder="São Paulo"
+            />
+          </div>
+          <div class="form-group">
+            <label for="state">Estado</label>
+            <input class="form-control" v-model="state" placeholder="SP" />
+          </div>
+          <div class="form-group">
+            <label for="zip">CEP</label>
+            <input class="form-control" v-model="zip" placeholder="00000-000" />
+          </div>
+          <div class="form-group">
+            <label for="reference">Referência</label>
+            <input
+              class="form-control"
+              v-model="reference"
+              placeholder="Próximo ao Colégio"
+            />
+          </div>
+        </form>
       </div>
     </div>
     <b-modal ref="modal-ver-descricao" hide-footer>
       {{ description }}
     </b-modal>
-    <FooterCarrinho :total="total" />
+    <FooterRevisarPedido
+      :total="total"
+      :cart="cart"
+      :address="address"
+      :city="city"
+      :state="state"
+      :zip="zip"
+      :reference="reference"
+    />
   </div>
 </template>
 
 <script>
-import FooterCarrinho from "@/components/FooterCarrinho.vue";
+import FooterRevisarPedido from "@/components/FooterRevisarPedido.vue";
 import ItemCarrinho from "../components/ItemCarrinho.vue";
 
 export default {
   name: "ListaCarrinho",
+  props: {
+    endereco: String,
+    cep: String,
+    referencia: String,
+  },
   components: {
     ItemCarrinho,
-    FooterCarrinho,
+    FooterRevisarPedido,
   },
   data() {
     return {
       cart: {},
       description: "",
+      address: "",
+      city: "",
+      state: "",
+      zip: "",
+      reference: "",
       total: 0,
     };
   },
@@ -72,22 +123,6 @@ export default {
     verDescricao(description) {
       this.description = description;
       this.$refs["modal-ver-descricao"].show();
-    },
-    async removerProduto(product_id) {
-      await fetch("http://127.0.0.1:5000/shopping_cart/remove", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: 1,
-          product_id: product_id,
-        }),
-      })
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((error) => console.log(error));
     },
   },
 };

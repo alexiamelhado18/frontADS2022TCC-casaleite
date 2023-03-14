@@ -6,13 +6,14 @@
     <p class="text-uppercase" style="margin: 0 10px; color: #6c757d">
       <b style="font-weight: 100">total: </b>r${{ total }}
     </p>
-    <button
-      type="button"
+
+    <router-link
       class="btn btn-red btn-pluss flex-wrap"
       style="background-color: #6c757d; color: #ececec; width: 200px"
+      :to="{ name: 'RevisarPedido' }"
     >
       Continuar
-    </button>
+    </router-link>
   </footer>
 </template>
 <script>

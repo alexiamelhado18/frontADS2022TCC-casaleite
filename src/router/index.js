@@ -6,6 +6,8 @@ import AlterarProduto from "../views/AlterarProduto.vue";
 import Produtos from "../views/Produtos.vue";
 import DetalhesProduto from "../views/DetalhesProduto.vue";
 import ListaCarrinho from "../views/ListaCarrinho.vue";
+import RevisarPedido from "../views/RevisarPedido.vue";
+import Pedidos from "../views/Pedidos.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -43,6 +45,16 @@ const routes = [
     path: "/Carrinho",
     name: "ListaCarrinho",
     component: ListaCarrinho,
+  },
+  {
+    path: "/RevisarPedido",
+    name: "RevisarPedido",
+    component: RevisarPedido,
+  },
+  {
+    path: "/Pedidos",
+    name: "Pedidos",
+    component: Pedidos,
   },
 ];
 

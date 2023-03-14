@@ -1,11 +1,7 @@
 <template>
   <tr>
     <td class="col-md-2">
-      <img
-        class="img-fluid"
-        src="https://cec-a.akamaihd.net/img-prod/images/standard/cimento-todas-as-obras-50kg-votorantim-1228972-foto-a644e307-1919-4c4b-8737-b62144cc1932.png"
-        style
-      />
+      <img class="img-fluid" :src="imagem" style />
     </td>
     <td class="col-md-2">
       <a :href="'/DetalhesProduto/' + id">{{ nome }}</a>
@@ -25,6 +21,24 @@ export default {
     descricao: String,
     quantidade: Number,
     preco: Number,
+  },
+  methods: {
+    async removerProduto() {
+      await fetch("http://127.0.0.1:5000/shopping_cart/remove", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user_id: 1,
+          product_id: this.$props.id,
+        }),
+      })
+        .then(() => {
+          window.location.reload();
+        })
+        .catch((error) => console.log(error));
+    },
   },
 };
 </script>
