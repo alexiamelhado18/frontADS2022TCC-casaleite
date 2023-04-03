@@ -42,6 +42,7 @@
 
 <script>
 import Pedido from "@/components/Pedido.vue";
+import axios from "axios";
 
 export default {
   name: "ListaCarrinho",
@@ -58,13 +59,8 @@ export default {
   },
   methods: {
     async getAll() {
-      await fetch("http://127.0.0.1:5000/order/1")
-        .then((response) => {
-          response.json().then((data) => {
-            this.orders = data;
-          });
-        })
-        .catch((error) => console.log(error));
+      var response = await axios.get("/order");
+      this.orders = response.data;
     },
   },
 };

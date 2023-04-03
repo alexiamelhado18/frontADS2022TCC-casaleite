@@ -1,8 +1,8 @@
 <template>
   <div style="position: relative; cursor: pointer">
-    <a href="/Carrinho" style="color: inherit">
+    <router-link to="/Carrinho" style="color: inherit">
       <b-icon style="cursor: pointer" icon="cart3" aria-hidden="true"></b-icon>
-    </a>
+    </router-link>
     <span
       v-if="qtd > 0"
       style="
@@ -23,6 +23,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "Carrinho",
   props: {
@@ -32,14 +33,8 @@ export default {
     return {};
   },
   async created() {
-    console.log("entrou");
-    await fetch("http://127.0.0.1:5000/shopping_cart/1")
-      .then((response) => {
-        response.json().then((data) => {
-          this.$props.qtd = Object.keys(data.items).length;
-        });
-      })
-      .catch((error) => console.log(error));
+    var response = await axios.get("/shopping_cart");
+    this.$props.qtd = Object.keys(response.data.items).length;
   },
 };
 </script>

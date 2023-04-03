@@ -8,6 +8,8 @@ import DetalhesProduto from "../views/DetalhesProduto.vue";
 import ListaCarrinho from "../views/ListaCarrinho.vue";
 import RevisarPedido from "../views/RevisarPedido.vue";
 import Pedidos from "../views/Pedidos.vue";
+import Login from "../views/Login.vue";
+import Registrar from "../views/Registrar.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -55,6 +57,16 @@ const routes = [
     path: "/Pedidos",
     name: "Pedidos",
     component: Pedidos,
+  },
+  {
+    path: "/Login",
+    name: "Login",
+    component: Login,
+  },
+  {
+    path: "/Registrar",
+    name: "Registrar",
+    component: Registrar,
   },
 ];
 

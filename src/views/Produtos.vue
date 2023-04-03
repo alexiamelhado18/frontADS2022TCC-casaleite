@@ -67,6 +67,7 @@
 <script>
 import ComponentCaixaProduto from "@/components/CaixaProduto.vue";
 import Voltar from "../components/Voltar.vue";
+import axios from "axios";
 
 export default {
   name: "ProdutosClienteView",
@@ -90,28 +91,15 @@ export default {
       var page;
       page = this.$route.query.page ?? 1;
       var category_id = this.$route.query.category_id ?? "";
-      await fetch(
-        "http://127.0.0.1:5000/product?limit=9&page=" +
-          page +
-          "&category_id=" +
-          category_id
-      )
-        .then((response) => {
-          response.json().then((data) => {
-            this.items = data.products;
-            this.pages = data.iter_pages;
-          });
-        })
-        .catch((error) => console.log(error));
+      var response = await axios.get(
+        "/product?limit=9&page=" + page + "&category_id=" + category_id
+      );
+      this.items = response.data.products;
+      this.pages = response.data.iter_pages;
     },
     async getCategories() {
-      await fetch("http://127.0.0.1:5000/product/categories")
-        .then((response) => {
-          response.json().then((data) => {
-            this.categories = data;
-          });
-        })
-        .catch((error) => console.log(error));
+      var response = await axios.get("/product/categories");
+      this.categories = response.data;
     },
   },
 };

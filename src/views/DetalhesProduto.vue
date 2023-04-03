@@ -85,6 +85,7 @@
 
 <script>
 import Voltar from "../components/Voltar.vue";
+import axios from "axios";
 
 export default {
   name: "DetalhesProduto",
@@ -98,37 +99,28 @@ export default {
     console.log(this.item);
   },
   methods: {
-    getProduto() {
-      fetch("http://127.0.0.1:5000/product/" + this.id)
-        .then((response) => {
-          response.json().then((data) => {
-            this.item = data;
-            console.log(data);
-          });
-        })
-        .catch((error) => console.log(error));
+    async getProduto() {
+      var response = await axios.get("/product/" + this.id);
+      this.item = response.data;
     },
-    adicionarCarrinho() {
-      const requestOptions = {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          user_id: 1,
-          product_id: this.$route.params.id,
-          quantity: this.counter,
-        }),
-      };
+    async adicionarCarrinho() {
       if (this.counter > 0) {
-        fetch("http://127.0.0.1:5000/shopping_cart/add", requestOptions)
-          .then((response) => {
-            if (response.status === 200) {
-              this.status = "O produto foi adicionado ao carrinho";
-              this.abrirModal();
-            } else {
-              this.status = "Houve algum erro ao adicionar ao carrinho!";
-            }
-          })
-          .catch((error) => console.log(error));
+        try {
+          const responseUser = await axios.get("/user/current-user");
+          var response = await axios.post("/shopping_cart/add", {
+            product_id: this.$route.params.id,
+            quantity: this.counter,
+          });
+          console.log(response.status);
+          if (response.status === 200) {
+            this.status = "O produto foi adicionado ao carrinho";
+            this.abrirModal();
+          } else {
+            this.status = "Houve algum erro ao adicionar ao carrinho!";
+          }
+        } catch (error) {
+          console.log(error);
+        }
       }
     },
     abrirModal() {

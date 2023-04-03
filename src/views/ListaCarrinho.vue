@@ -41,6 +41,7 @@
 <script>
 import FooterCarrinho from "@/components/FooterCarrinho.vue";
 import ItemCarrinho from "../components/ItemCarrinho.vue";
+import axios from "axios";
 
 export default {
   name: "ListaCarrinho",
@@ -60,34 +61,19 @@ export default {
   },
   methods: {
     async getAll() {
-      await fetch("http://127.0.0.1:5000/shopping_cart/1")
-        .then((response) => {
-          response.json().then((data) => {
-            this.cart = data;
-            this.total = data.total_price;
-          });
-        })
-        .catch((error) => console.log(error));
+      var response = await axios.get("/shopping_cart");
+      this.cart = response.data;
+      this.total = response.data.total_price;
     },
     verDescricao(description) {
       this.description = description;
       this.$refs["modal-ver-descricao"].show();
     },
     async removerProduto(product_id) {
-      await fetch("http://127.0.0.1:5000/shopping_cart/remove", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          user_id: 1,
-          product_id: product_id,
-        }),
-      })
-        .then(() => {
-          window.location.reload();
-        })
-        .catch((error) => console.log(error));
+      await axios.post("/shopping_cart/remove", {
+        product_id: product_id,
+      });
+      window.location.reload();
     },
   },
 };

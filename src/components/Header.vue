@@ -16,13 +16,37 @@
       />
     </RouterLink>
     <nav class="w-100 d-flex justify-content-center align-items-center">
-      <a class="text-decoration-none" href="/Produtos" style="color: #fff"
-        >Produtos</a
+      <router-link
+        class="text-decoration-none"
+        to="/Produtos"
+        style="color: #fff"
+        >Produtos</router-link
       >
     </nav>
     <nav class="w-100">
-      <a class="text-decoration-none" href="/Pedidos" style="color: #fff"
-        >Meus Pedidos</a
+      <router-link
+        class="text-decoration-none"
+        to="/Pedidos"
+        style="color: #fff"
+        >Meus Pedidos</router-link
+      >
+    </nav>
+    <nav class="w-100">
+      <h5 v-if="user">Olá {{ user.name }}</h5>
+      <a
+        v-if="user"
+        @click="logout"
+        class="text-decoration-none"
+        href="/Login"
+        style="color: #fff"
+        >Sair</a
+      >
+      <router-link
+        v-if="!user"
+        class="text-decoration-none"
+        to="/Login"
+        style="color: #fff"
+        >Fazer Login</router-link
       >
     </nav>
     <Carrinho />
@@ -31,9 +55,26 @@
 <script>
 import { RouterLink } from "vue-router";
 import Carrinho from "./Carrinho.vue";
+import axios from "axios";
+import { onBeforeMount } from "vue";
 
 export default {
   name: "NavBar",
   components: { RouterLink, Carrinho },
+  data() {
+    return {
+      user: null,
+    };
+  },
+  methods: {
+    logout() {
+      console.log("logout");
+      localStorage.removeItem("token");
+    },
+  },
+  async beforeMount() {
+    const response = await axios.get("/user/current-user");
+    this.user = await response.data;
+  },
 };
 </script>
