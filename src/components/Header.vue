@@ -32,7 +32,15 @@
       >
     </nav>
     <nav class="w-100">
-      <h5 v-if="user">Olá {{ user.name }}</h5>
+      <h5 v-if="user">
+        Olá
+        <router-link
+          class="text-decoration-none"
+          to="/Usuario"
+          style="color: black"
+          >{{ user.name }}</router-link
+        >
+      </h5>
       <a
         v-if="user"
         @click="logout"

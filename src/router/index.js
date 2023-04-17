@@ -10,6 +10,7 @@ import RevisarPedido from "../views/RevisarPedido.vue";
 import Pedidos from "../views/Pedidos.vue";
 import Login from "../views/Login.vue";
 import Registrar from "../views/Registrar.vue";
+import Usuario from "../views/Usuario.vue";
 Vue.use(VueRouter);
 
 const routes = [
@@ -67,6 +68,11 @@ const routes = [
     path: "/Registrar",
     name: "Registrar",
     component: Registrar,
+  },
+  {
+    path: "/Usuario",
+    name: "Usuario",
+    component: Usuario,
   },
 ];
 
