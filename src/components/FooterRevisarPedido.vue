@@ -53,8 +53,8 @@ export default {
         });
       }
       await axios.delete("/shopping_cart");
-      this.$router.push("/Pedidos");
-      window.location.reload();
+      let response_payment = await axios.post(`/order/${order_id}/payment`);
+      window.location.href = response_payment.data;
     },
   },
 };

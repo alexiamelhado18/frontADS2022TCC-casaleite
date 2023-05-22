@@ -24,7 +24,7 @@
               :preco="item.price"
               @verDescricao="verDescricao(item.description)"
             />
-            <b-button class="m-3" @click="removerProduto(key)"
+            <b-button class="m-3" @click="removerProduto(key, item.quantity)"
               >Remover</b-button
             >
           </tbody>
@@ -69,9 +69,10 @@ export default {
       this.description = description;
       this.$refs["modal-ver-descricao"].show();
     },
-    async removerProduto(product_id) {
+    async removerProduto(product_id, quantity) {
       await axios.post("/shopping_cart/remove", {
         product_id: product_id,
+        quantity: quantity,
       });
       window.location.reload();
     },

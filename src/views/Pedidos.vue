@@ -59,7 +59,7 @@ export default {
   },
   methods: {
     async getAll() {
-      var response = await axios.get("/order");
+      var response = await axios.get("/order/current-user");
       this.orders = response.data;
     },
   },
