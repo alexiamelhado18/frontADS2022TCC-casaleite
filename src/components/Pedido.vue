@@ -4,17 +4,20 @@
       {{ id }}
     </td>
     <td class="col-md-2">
-      {{ data }}
+      {{ data | formatDate }}
     </td>
     <td class="col-md-2">
-      {{ endereco }} - {{ cidade }}, {{ estado }} <br />
-      {{ referencia }}
+      {{ endereco }}
     </td>
     <td class="col-md-2">{{ total }}</td>
     <td class="col-md-2">{{ this.statusPedido(status) }}</td>
+    <td class="col-md-2">
+      <button @click="cancelarPedido(id)">Cancelar</button>
+    </td>
   </tr>
 </template>
 <script>
+import axios from "axios";
 export default {
   name: "Pedido",
   props: {
@@ -39,9 +42,13 @@ export default {
           return "Enviado";
         case "Status.delivered":
           return "Entregue";
-        case "Status.canceled":
+        case "Status.cancelled":
           return "Cancelado";
       }
+    },
+    async cancelarPedido(order_id) {
+      await axios.post(`/order/${order_id}`);
+      window.location.reload();
     },
   },
 };
